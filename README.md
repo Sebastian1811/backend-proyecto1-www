@@ -1,5 +1,5 @@
 # Backend-proyecto1-www
-Backend para proyecto 1 WWW. App backend desarrollado en go antes de configurar ambiente dev instalar [go](https://go.dev/).
+Backend para proyecto 1 www. App backend desarrollado en go antes de configurar ambiente dev instalar [golang](https://go.dev/).
 
 ## Index
 

@@ -27,7 +27,7 @@ func main() {
 		ctx.JSON(200, becaController.Update(ctx))
 	})
 
-	server.DELETE("/Beca", func(ctx *gin.Context) {
+	server.DELETE("/Beca/:id", func(ctx *gin.Context) {
 		ctx.JSON(200, becaController.Delete(ctx))
 	})
 

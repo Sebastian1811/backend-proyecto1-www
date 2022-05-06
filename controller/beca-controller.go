@@ -51,7 +51,11 @@ func (c *controller) Update(ctx *gin.Context) error {
 func (c *controller) Delete(ctx *gin.Context) error {
 	var beca entity.Beca
 	ctx.BindJSON(&beca)
-
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		return err
+	}
+	beca.ID = id
 	c.service.Delete(beca)
 	return nil
 }

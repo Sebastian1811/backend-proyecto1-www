@@ -11,6 +11,6 @@ type Beca struct {
 	PorcentajeFinanciacion int    `json:"porcentajeF" binding:"required,gte=1,lte=100" gorm:"type:varchar(5)"`
 	Pais                   string `json:"pais" binding:"required,gte=1,lte=40" gorm:"type:varchar(40)"`
 	//Requisitos
-	CreatedAt time.Time `gorm:"default:CURRENT TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT TIMESTAMP" json:"updated_at"`
+	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }

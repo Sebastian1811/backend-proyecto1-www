@@ -11,6 +11,7 @@ type BecaRepository interface {
 	Update(beca entity.Beca)
 	Delete(beca entity.Beca)
 	GetAll() []entity.Beca
+	GetById(int) entity.Beca
 	CloseDB()
 }
 
@@ -48,4 +49,9 @@ func (db *database) GetAll() []entity.Beca {
 	var becas []entity.Beca
 	db.connection.Find(&becas)
 	return becas
+}
+func (db *database) GetById(id int) entity.Beca {
+	var beca entity.Beca
+	db.connection.First(&beca, id)
+	return beca
 }

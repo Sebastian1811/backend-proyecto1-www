@@ -13,6 +13,7 @@ type BecaController interface {
 	Save(ctx *gin.Context) entity.Beca
 	Update(ctx *gin.Context) error
 	Delete(ctx *gin.Context) error
+	GetById(*gin.Context) entity.Beca
 }
 
 type controller struct {
@@ -58,4 +59,9 @@ func (c *controller) Delete(ctx *gin.Context) error {
 	beca.ID = id
 	c.service.Delete(beca)
 	return nil
+}
+
+func (c *controller) GetById(ctx *gin.Context) entity.Beca {
+	id, _ := strconv.ParseInt(ctx.Param("id"), 0, 0)
+	return c.service.GetById(int(id))
 }

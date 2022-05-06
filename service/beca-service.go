@@ -10,6 +10,7 @@ type BecaService interface {
 	GetAll() []entity.Beca
 	Update(beca entity.Beca)
 	Delete(beca entity.Beca)
+	GetById(int) entity.Beca
 }
 
 type becaService struct {
@@ -37,4 +38,8 @@ func (service *becaService) Delete(beca entity.Beca) {
 
 func (service *becaService) GetAll() []entity.Beca {
 	return service.becaRepository.GetAll()
+}
+
+func (service *becaService) GetById(id int) entity.Beca {
+	return service.becaRepository.GetById(id)
 }

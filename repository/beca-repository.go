@@ -25,7 +25,8 @@ func NewBecaRepository() BecaRepository {
 	if err != nil {
 		panic("Failed to connect database")
 	}
-	db.AutoMigrate(&entity.Beca{})
+
+	db.AutoMigrate(&entity.Beca{}, &entity.User{})
 
 	return &database{
 		connection: db,

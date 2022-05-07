@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/Sebastian1811/backend-proyecto1-www/controller"
 	"github.com/Sebastian1811/backend-proyecto1-www/repository"
 	"github.com/Sebastian1811/backend-proyecto1-www/service"
@@ -19,9 +17,7 @@ func main() {
 	server := gin.Default()
 	apiRoutes := server.Group("/Beca")
 	{
-		apiRoutes.POST("", func(ctx *gin.Context) {
-			ctx.JSON(200, becaController.Save(ctx))
-		})
+		apiRoutes.POST("", becaController.Save)
 
 		apiRoutes.GET("/all", func(ctx *gin.Context) {
 			ctx.JSON(200, becaController.GetAll())
@@ -31,14 +27,12 @@ func main() {
 			ctx.JSON(200, becaController.Update(ctx))
 		})
 
-		apiRoutes.DELETE(":id", func(ctx *gin.Context) {
-			ctx.JSON(200, becaController.Delete(ctx))
-		})
+		apiRoutes.DELETE(":id", becaController.Delete)
 
-		apiRoutes.GET(":id", func(ctx *gin.Context) {
+		/*apiRoutes.GET(":id", func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, becaController.GetById(ctx))
-		})
-
+		})*/
+		apiRoutes.GET(":id", becaController.GetById)
 	}
 
 	server.Run("localhost:8080")

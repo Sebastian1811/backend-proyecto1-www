@@ -7,9 +7,9 @@ import (
 )
 
 type BecaRepository interface {
-	Save(beca entity.Beca)
-	Update(beca entity.Beca)
-	Delete(beca entity.Beca)
+	Save(entity.Beca)
+	Update(entity.Beca)
+	Delete(int)
 	GetAll() []entity.Beca
 	GetById(int) entity.Beca
 	CloseDB()
@@ -42,8 +42,8 @@ func (db *database) Save(beca entity.Beca) {
 func (db *database) Update(beca entity.Beca) {
 	db.connection.Save(&beca)
 }
-func (db *database) Delete(beca entity.Beca) {
-	db.connection.Delete(&beca)
+func (db *database) Delete(id int) {
+	db.connection.Delete(&entity.Beca{}, id)
 }
 func (db *database) GetAll() []entity.Beca {
 	var becas []entity.Beca

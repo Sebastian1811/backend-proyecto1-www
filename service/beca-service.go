@@ -6,10 +6,10 @@ import (
 )
 
 type BecaService interface {
-	Save(entity.Beca) entity.Beca
+	Save(entity.Beca)
 	GetAll() []entity.Beca
-	Update(beca entity.Beca)
-	Delete(beca entity.Beca)
+	Update(entity.Beca)
+	Delete(int)
 	GetById(int) entity.Beca
 }
 
@@ -23,17 +23,17 @@ func New(repo repository.BecaRepository) BecaService {
 	}
 }
 
-func (service *becaService) Save(beca entity.Beca) entity.Beca {
+func (service *becaService) Save(beca entity.Beca) {
 	service.becaRepository.Save(beca)
-	return beca
+
 }
 
 func (service *becaService) Update(beca entity.Beca) {
 	service.becaRepository.Update(beca)
 }
 
-func (service *becaService) Delete(beca entity.Beca) {
-	service.becaRepository.Delete(beca)
+func (service *becaService) Delete(id int) {
+	service.becaRepository.Delete(id)
 }
 
 func (service *becaService) GetAll() []entity.Beca {

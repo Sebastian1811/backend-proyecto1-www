@@ -2,7 +2,7 @@ package repository
 
 import (
 	"github.com/Sebastian1811/backend-proyecto1-www/entity"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +20,8 @@ type database struct {
 }
 
 func NewBecaRepository() BecaRepository {
-	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	dsn := "postgres://xjwhscksgtbqtr:e44cca7b7ba6e6843ece37c3f2681747b4de38ea29d7ca76955c5a81926114b1@ec2-3-217-113-25.compute-1.amazonaws.com:5432/d6lcnv0p7n75e8"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect database")
 	}

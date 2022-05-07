@@ -19,21 +19,13 @@ func main() {
 	{
 		apiRoutes.POST("", becaController.Save)
 
-		apiRoutes.GET("/all", func(ctx *gin.Context) {
-			ctx.JSON(200, becaController.GetAll())
-		})
+		apiRoutes.GET("/all", becaController.GetAll)
 
-		apiRoutes.PUT(":id", func(ctx *gin.Context) {
-			ctx.JSON(200, becaController.Update(ctx))
-		})
+		apiRoutes.PUT(":id", becaController.Update)
 
 		apiRoutes.DELETE(":id", becaController.Delete)
 
-		/*apiRoutes.GET(":id", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusOK, becaController.GetById(ctx))
-		})*/
 		apiRoutes.GET(":id", becaController.GetById)
 	}
-
 	server.Run("localhost:8080")
 }

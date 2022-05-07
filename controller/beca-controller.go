@@ -10,10 +10,10 @@ import (
 )
 
 type BecaController interface {
-	GetAll() []entity.Beca
-	Save(ctx *gin.Context)
-	Update(ctx *gin.Context) error
-	Delete(ctx *gin.Context) //error
+	GetAll(*gin.Context)
+	Save(*gin.Context)
+	Update(*gin.Context)
+	Delete(*gin.Context)
 	GetById(*gin.Context)
 }
 
@@ -27,8 +27,8 @@ func New(service service.BecaService) BecaController {
 	}
 }
 
-func (c *controller) GetAll() []entity.Beca {
-	return c.service.GetAll()
+func (c *controller) GetAll(ctx *gin.Context) {
+	ctx.JSON(200, c.service.GetAll())
 }
 
 func (c *controller) Save(ctx *gin.Context) {
@@ -37,27 +37,30 @@ func (c *controller) Save(ctx *gin.Context) {
 	c.service.Save(beca)
 }
 
-func (c *controller) Update(ctx *gin.Context) error {
+func (c *controller) Update(ctx *gin.Context) {
 	var beca entity.Beca
 	ctx.BindJSON(&beca)
 	fmt.Println("hola")
 	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
 	if err != nil {
-		return err
+		ctx.AbortWithError(404, err)
+	} else {
+		beca.ID = id
+		c.service.Update(beca)
+		ctx.JSON(200, beca)
 	}
-	beca.ID = id
-	c.service.Update(beca)
-	return nil
 }
 
-func (c *controller) Delete(ctx *gin.Context) /*error*/ {
-	id, _ := strconv.ParseUint(ctx.Param("id"), 0, 0)
-	/*if err != nil {
-		return err
-	}*/
-	c.service.Delete(int(id))
-	//return nil
-	ctx.Status(200)
+func (c *controller) Delete(ctx *gin.Context) {
+	var beca entity.Beca
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		ctx.AbortWithError(404, err)
+	} else {
+		beca = c.service.GetById(int(id))
+		c.service.Delete(int(id))
+		ctx.JSON(200, beca)
+	}
 }
 
 func (c *controller) GetById(ctx *gin.Context) {

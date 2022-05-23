@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Sebastian1811/backend-proyecto1-www/config"
 	"github.com/Sebastian1811/backend-proyecto1-www/controller"
+	"github.com/Sebastian1811/backend-proyecto1-www/middlewares"
 	"github.com/Sebastian1811/backend-proyecto1-www/repository"
 	"github.com/Sebastian1811/backend-proyecto1-www/service"
 	"github.com/gin-gonic/gin"
@@ -15,14 +16,15 @@ var (
 	becaService    service.BecaService       = service.New(becaRepository)
 	becaController controller.BecaController = controller.New(becaService)
 
+	authService    service.JWTService        = service.NewJWTService()
 	userRepository repository.UserRepository = repository.NewUserRepository(db)
 	userService    service.UserService       = service.NewUserService(userRepository)
-	userController controller.UserController = controller.NewUserController(userService)
+	userController controller.UserController = controller.NewUserController(userService, authService)
 )
 
 func main() {
 	server := gin.Default()
-	apiRoutes := server.Group("/Beca")
+	apiRoutes := server.Group("/Beca", middlewares.AuthorizeJWT())
 	{
 		apiRoutes.POST("", becaController.Save)
 

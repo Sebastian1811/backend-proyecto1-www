@@ -15,12 +15,14 @@ type UserController interface {
 }
 
 type userController struct {
-	service service.UserService
+	service    service.UserService
+	jwtService service.JWTService
 }
 
-func NewUserController(service service.UserService) UserController {
+func NewUserController(service service.UserService, authService service.JWTService) UserController {
 	return &userController{
-		service: service,
+		service:    service,
+		jwtService: authService,
 	}
 }
 
@@ -51,6 +53,9 @@ func (c *userController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusUnauthorized, "usuario o password incorrecta")
 
 	} else {
-		ctx.JSON(http.StatusOK, "bien")
+		token := c.jwtService.GenerateToken()
+		ctx.JSON(http.StatusOK, gin.H{
+			"token": token,
+		})
 	}
 }

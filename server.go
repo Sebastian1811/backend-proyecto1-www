@@ -14,6 +14,10 @@ var (
 	becaRepository repository.BecaRepository = repository.NewBecaRepository(db)
 	becaService    service.BecaService       = service.New(becaRepository)
 	becaController controller.BecaController = controller.New(becaService)
+
+	userRepository repository.UserRepository = repository.NewUserRepository(db)
+	userService    service.UserService       = service.NewUserService(userRepository)
+	userController controller.UserController = controller.NewUserController(userService)
 )
 
 func main() {
@@ -29,6 +33,11 @@ func main() {
 		apiRoutes.DELETE(":id", becaController.Delete)
 
 		apiRoutes.GET(":id", becaController.GetById)
+	}
+
+	userRoutes := server.Group("/User")
+	{
+		userRoutes.POST("/register", userController.Register)
 	}
 	server.Run("localhost:8080")
 }

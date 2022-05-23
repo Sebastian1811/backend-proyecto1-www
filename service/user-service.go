@@ -6,8 +6,8 @@ import (
 )
 
 type UserService interface {
-	register(entity.User)
-	login(int) entity.User
+	Register(entity.User)
+	Login(int) entity.User
 }
 
 type userService struct {
@@ -16,6 +16,14 @@ type userService struct {
 
 func NewUserService(repo repository.UserRepository) UserService {
 	return &userService{
-		userrepository: repo,
+		userRepository: repo,
 	}
+}
+
+func (service *userService) Register(user entity.User) {
+	service.userRepository.Register(user)
+}
+
+func (service *userService) Login(id int) entity.User {
+	return service.userRepository.Login(id)
 }

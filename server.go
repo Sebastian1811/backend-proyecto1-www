@@ -1,14 +1,17 @@
 package main
 
 import (
+	"github.com/Sebastian1811/backend-proyecto1-www/config"
 	"github.com/Sebastian1811/backend-proyecto1-www/controller"
 	"github.com/Sebastian1811/backend-proyecto1-www/repository"
 	"github.com/Sebastian1811/backend-proyecto1-www/service"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 var (
-	becaRepository repository.BecaRepository = repository.NewBecaRepository()
+	db             *gorm.DB                  = config.SetupDatabaseConn()
+	becaRepository repository.BecaRepository = repository.NewBecaRepository(db)
 	becaService    service.BecaService       = service.New(becaRepository)
 	becaController controller.BecaController = controller.New(becaService)
 )

@@ -7,7 +7,7 @@ import (
 
 type UserService interface {
 	Register(entity.User)
-	Login(int) entity.User
+	Login(string) entity.User
 }
 
 type userService struct {
@@ -24,6 +24,6 @@ func (service *userService) Register(user entity.User) {
 	service.userRepository.Register(user)
 }
 
-func (service *userService) Login(id int) entity.User {
-	return service.userRepository.Login(id)
+func (service *userService) Login(email string) entity.User {
+	return service.userRepository.Login(email)
 }

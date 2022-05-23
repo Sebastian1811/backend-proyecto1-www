@@ -38,6 +38,7 @@ func main() {
 	userRoutes := server.Group("/User")
 	{
 		userRoutes.POST("/register", userController.Register)
+		userRoutes.POST("/login", userController.Login)
 	}
 	server.Run("localhost:8080")
 }

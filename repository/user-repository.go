@@ -7,7 +7,7 @@ import (
 
 type UserRepository interface {
 	Register(entity.User)
-	Login(int) entity.User
+	Login(string) entity.User
 }
 
 type userDB struct {
@@ -23,8 +23,8 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 func (db *userDB) Register(newuser entity.User) {
 	db.connection.Create(&newuser)
 }
-func (db *userDB) Login(id int) entity.User {
+func (db *userDB) Login(email string) entity.User {
 	var usuario entity.User
-	db.connection.Find(&usuario, id)
+	db.connection.Where("email = ?", email).First(&usuario)
 	return usuario
 }

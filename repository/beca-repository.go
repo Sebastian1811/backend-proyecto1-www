@@ -13,31 +13,31 @@ type BecaRepository interface {
 	GetById(int) entity.Beca
 }
 
-type database struct {
+type becaDB struct {
 	connection *gorm.DB
 }
 
 func NewBecaRepository(db *gorm.DB) BecaRepository {
-	return &database{
+	return &becaDB{
 		connection: db,
 	}
 }
 
-func (db *database) Save(beca entity.Beca) {
+func (db *becaDB) Save(beca entity.Beca) {
 	db.connection.Create(&beca)
 }
-func (db *database) Update(beca entity.Beca) {
+func (db *becaDB) Update(beca entity.Beca) {
 	db.connection.Save(&beca)
 }
-func (db *database) Delete(id int) {
+func (db *becaDB) Delete(id int) {
 	db.connection.Delete(&entity.Beca{}, id)
 }
-func (db *database) GetAll() []entity.Beca {
+func (db *becaDB) GetAll() []entity.Beca {
 	var becas []entity.Beca
 	db.connection.Find(&becas)
 	return becas
 }
-func (db *database) GetById(id int) entity.Beca {
+func (db *becaDB) GetById(id int) entity.Beca {
 	var beca entity.Beca
 	db.connection.First(&beca, id)
 	return beca

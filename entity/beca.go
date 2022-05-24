@@ -2,8 +2,6 @@ package entity
 
 import "time"
 
-// Añadir requerimientos, quizas como otra entidad porque son muchos.
-
 type Beca struct {
 	ID                     uint64 `json:"id" gorm:"primary_key;auto_increment"`
 	Categoria              string `json:"categoria" binding:"required,gte=1,lte=40" gorm:"type:varchar(40)"`

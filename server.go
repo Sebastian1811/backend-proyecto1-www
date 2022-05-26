@@ -52,5 +52,5 @@ func main() {
 		userRoutes.POST("/login", userController.Login)
 	}
 
-	server.Run("localhost:8080")
+	server.Run(":8080")
 }

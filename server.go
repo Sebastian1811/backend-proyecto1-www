@@ -26,8 +26,9 @@ var (
 )
 
 func main() {
-
+	gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
+
 	server.Use(middlewares.CORSMiddleware())
 
 	apiRoutes := server.Group("/Beca", middlewares.AuthorizeJWT())

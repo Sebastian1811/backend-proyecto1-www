@@ -84,8 +84,7 @@ func (c *controller) GetById(ctx *gin.Context) {
 
 func (c *controller) GetByCategoria(ctx *gin.Context) {
 	categoria := ctx.Param("categoria")
-
-	if categoria == "nacional" || categoria == "internacional" {
+	if categoria == "Nacional" || categoria == "Internacional" {
 		ctx.JSON(200, c.service.GetByCategoria(categoria))
 	} else {
 		ctx.JSON(404, "NO EXISTE LA CATEGORIA")

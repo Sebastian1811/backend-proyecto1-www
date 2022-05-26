@@ -31,7 +31,6 @@ func New(service service.BecaService, Rservice service.RequisitoService) BecaCon
 }
 
 func (c *controller) GetAll(ctx *gin.Context) {
-	//c.service.All()
 	ctx.JSON(200, c.service.GetAll())
 }
 func (c *controller) Save(ctx *gin.Context) {
@@ -43,15 +42,18 @@ func (c *controller) Save(ctx *gin.Context) {
 func (c *controller) Update(ctx *gin.Context) {
 	var beca entity.Beca
 	ctx.BindJSON(&beca)
-	fmt.Println("hola")
 	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	fmt.Println(id)
 	if err != nil {
 		ctx.AbortWithError(404, err)
 	} else {
+		c.serviceRequisitos.Delete(int(id))
+		c.service.Delete(int(id))
 		beca.ID = id
-		c.service.Update(beca)
+		c.service.Save(beca)
 		ctx.JSON(200, beca)
 	}
+
 }
 
 func (c *controller) Delete(ctx *gin.Context) {
@@ -68,10 +70,16 @@ func (c *controller) Delete(ctx *gin.Context) {
 }
 
 func (c *controller) GetById(ctx *gin.Context) {
-	id, _ := strconv.ParseInt(ctx.Param("id"), 0, 0)
-	becas := c.service.GetById(int(id))
-	becas.Requisitos = c.serviceRequisitos.GetAll(int(id))
-	ctx.JSON(200, becas)
+	id, err := strconv.ParseInt(ctx.Param("id"), 0, 0)
+
+	if err != nil {
+		ctx.AbortWithError(404, err)
+	} else {
+		becas := c.service.GetById(int(id))
+		becas.Requisitos = c.serviceRequisitos.GetAll(int(id))
+		ctx.JSON(200, becas)
+	}
+
 }
 
 func (c *controller) GetByCategoria(ctx *gin.Context) {

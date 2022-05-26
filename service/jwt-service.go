@@ -35,7 +35,7 @@ func getSecretKey() string {
 
 func (jwtSrv *jwtService) GenerateToken() string {
 	claims := jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		Issuer:    jwtSrv.issuer,
 		IssuedAt:  time.Now().Unix(),
 	}

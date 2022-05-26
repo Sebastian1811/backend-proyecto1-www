@@ -11,10 +11,13 @@ import (
 )
 
 var (
-	db             *gorm.DB                  = config.SetupDatabaseConn()
+	db                  *gorm.DB                       = config.SetupDatabaseConn()
+	requisitoRepository repository.RequisitoRepository = repository.NewRequesitoRepository(db)
+	requisitoService    service.RequisitoService       = service.NewRequisitoService(requisitoRepository)
+
 	becaRepository repository.BecaRepository = repository.NewBecaRepository(db)
 	becaService    service.BecaService       = service.New(becaRepository)
-	becaController controller.BecaController = controller.New(becaService)
+	becaController controller.BecaController = controller.New(becaService, requisitoService)
 
 	authService    service.JWTService        = service.NewJWTService()
 	userRepository repository.UserRepository = repository.NewUserRepository(db)
@@ -35,6 +38,8 @@ func main() {
 		apiRoutes.DELETE(":id", becaController.Delete)
 
 		apiRoutes.GET(":id", becaController.GetById)
+
+		apiRoutes.GET("/categoria/:categoria", becaController.GetByCategoria)
 	}
 
 	userRoutes := server.Group("/User")

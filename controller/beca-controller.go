@@ -15,22 +15,25 @@ type BecaController interface {
 	Update(*gin.Context)
 	Delete(*gin.Context)
 	GetById(*gin.Context)
+	GetByCategoria(*gin.Context)
 }
 
 type controller struct {
-	service service.BecaService
+	service           service.BecaService
+	serviceRequisitos service.RequisitoService
 }
 
-func New(service service.BecaService) BecaController {
+func New(service service.BecaService, Rservice service.RequisitoService) BecaController {
 	return &controller{
-		service: service,
+		service:           service,
+		serviceRequisitos: Rservice,
 	}
 }
 
 func (c *controller) GetAll(ctx *gin.Context) {
+	//c.service.All()
 	ctx.JSON(200, c.service.GetAll())
 }
-
 func (c *controller) Save(ctx *gin.Context) {
 	var beca entity.Beca
 	ctx.BindJSON(&beca)
@@ -58,6 +61,7 @@ func (c *controller) Delete(ctx *gin.Context) {
 		ctx.AbortWithError(404, err)
 	} else {
 		beca = c.service.GetById(int(id))
+		c.serviceRequisitos.Delete(int(id))
 		c.service.Delete(int(id))
 		ctx.JSON(200, beca)
 	}
@@ -65,5 +69,17 @@ func (c *controller) Delete(ctx *gin.Context) {
 
 func (c *controller) GetById(ctx *gin.Context) {
 	id, _ := strconv.ParseInt(ctx.Param("id"), 0, 0)
-	ctx.JSON(200, c.service.GetById(int(id)))
+	becas := c.service.GetById(int(id))
+	becas.Requisitos = c.serviceRequisitos.GetAll(int(id))
+	ctx.JSON(200, becas)
+}
+
+func (c *controller) GetByCategoria(ctx *gin.Context) {
+	categoria := ctx.Param("categoria")
+
+	if categoria == "nacional" || categoria == "internacional" {
+		ctx.JSON(200, c.service.GetByCategoria(categoria))
+	} else {
+		ctx.JSON(404, "NO EXISTE LA CATEGORIA")
+	}
 }

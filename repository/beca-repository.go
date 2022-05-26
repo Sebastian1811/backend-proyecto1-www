@@ -11,6 +11,7 @@ type BecaRepository interface {
 	Delete(int)
 	GetAll() []entity.Beca
 	GetById(int) entity.Beca
+	GetByCategoria(string) []entity.Beca
 }
 
 type becaDB struct {
@@ -41,4 +42,9 @@ func (db *becaDB) GetById(id int) entity.Beca {
 	var beca entity.Beca
 	db.connection.First(&beca, id)
 	return beca
+}
+func (db *becaDB) GetByCategoria(categoria string) []entity.Beca {
+	var becas []entity.Beca
+	db.connection.Where("categoria = ?", categoria).Find(&becas)
+	return becas
 }

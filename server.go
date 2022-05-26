@@ -6,7 +6,6 @@ import (
 	"github.com/Sebastian1811/backend-proyecto1-www/middlewares"
 	"github.com/Sebastian1811/backend-proyecto1-www/repository"
 	"github.com/Sebastian1811/backend-proyecto1-www/service"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -27,7 +26,9 @@ var (
 )
 
 func main() {
+
 	server := gin.Default()
+	server.Use(middlewares.CORSMiddleware())
 
 	apiRoutes := server.Group("/Beca", middlewares.AuthorizeJWT())
 	{
@@ -50,6 +51,5 @@ func main() {
 		userRoutes.POST("/login", userController.Login)
 	}
 
-	server.Use(cors.Default())
 	server.Run("localhost:8080")
 }

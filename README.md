@@ -6,6 +6,7 @@ Backend para proyecto 1 www. App backend desarrollado en go antes de configurar 
 1. [Config ambiente dev](#configurar-ambiente-de-desarrollo)
 2. [Arrancar server auto-reload](#arrancar-servidor-con-auto-reload)
 3. [Arrancar sin auto-reload](#arrancar-el-servidor-sin-auto-reload)
+4. [Documentacion api-rest](#documentacion-api-rest)
 
 ## Configurar ambiente de desarrollo
 
@@ -49,3 +50,8 @@ Backend para proyecto 1 www. App backend desarrollado en go antes de configurar 
     go run server.go
 ```
 
+## Documentacion api-rest
+
+Puede revisar la documentación de la api-rest, funcionamiento y ejemplos en el siguiente link:
+
+[API-DOCUMENTACION](https://documenter.getpostman.com/view/18393348/Uz5CKcsu) 
